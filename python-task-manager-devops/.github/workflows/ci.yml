@@ -14,7 +14,7 @@ on:
     #   - main
     branches: [ "main" ]
 
-  workflow_dispatch:
+  ## workflow_dispatch:
 
 jobs:
   test:
