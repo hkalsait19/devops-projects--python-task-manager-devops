@@ -49,20 +49,39 @@ def create_app():
 
         return jsonify(task), 200
 
+    # @app.route("/tasks", methods=["POST"])
+    # def create_task():
+    #     data = request.get_json()
+
+    #     if not data or "title" not in data:
+    #         return jsonify({
+    #             "error": "Task title is required"
+    #         }), 400
+
+    #     task = {
+    #         "id": max(
+    #             [task["id"] for task in tasks],
+    #             default=0
+    #         ) + 1,
+    #         "title": data["title"],
+    #         "completed": data.get("completed", False)
+    #     }
+
     @app.route("/tasks", methods=["POST"])
     def create_task():
         data = request.get_json()
 
-        if not data or "title" not in data:
-            return jsonify({
-                "error": "Task title is required"
-            }), 400
+        if data is None:
+            return jsonify({"error": "Invalid JSON payload"}), 400
+
+        if "title" not in data:
+            return jsonify({"error": "Task title is required"}), 400
+
+        if any(task["title"] == data["title"] for task in tasks):
+            return jsonify({"error": "Task with this title already exists"}), 400
 
         task = {
-            "id": max(
-                [task["id"] for task in tasks],
-                default=0
-            ) + 1,
+            "id": max([task["id"] for task in tasks], default=0) + 1,
             "title": data["title"],
             "completed": data.get("completed", False)
         }
