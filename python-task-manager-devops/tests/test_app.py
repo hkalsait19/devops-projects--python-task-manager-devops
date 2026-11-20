@@ -1,4 +1,4 @@
-## Test cases for the Flask application
+# Test cases for the Flask application
 
 import pytest
 

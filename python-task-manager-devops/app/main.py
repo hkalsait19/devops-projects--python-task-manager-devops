@@ -72,13 +72,19 @@ def create_app():
         data = request.get_json()
 
         if data is None:
-            return jsonify({"error": "Invalid JSON payload"}), 400
+            return jsonify(
+                {"error": "Invalid JSON payload"}
+                ), 400
 
         if "title" not in data:
-            return jsonify({"error": "Task title is required"}), 400
+            return jsonify(
+                {"error": "Task title is required"}
+                ), 400
 
         if any(task["title"] == data["title"] for task in tasks):
-            return jsonify({"error": "Task with this title already exists"}), 400
+            return jsonify(
+                {"error": "Task with this title already exists"}
+                ), 400
 
         task = {
             "id": max([task["id"] for task in tasks], default=0) + 1,
