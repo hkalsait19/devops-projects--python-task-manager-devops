@@ -1,10 +1,4 @@
-## Test cases for the Flask application
-
-import sys
-import os
-
-# Ensure the app module is discoverable
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../")))
+# Test cases for the Flask application
 
 import pytest
 
