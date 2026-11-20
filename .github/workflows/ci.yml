@@ -1,7 +1,4 @@
-# This workflow will install Python dependencies, run tests and lint with a single version of Python
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python
-
-## GitHub Actions workflow for Python Task Manager CI
+# This workflow installs Python dependencies, runs tests, and lints the application.
 
 name: Python Task Manager CI
 
@@ -16,6 +13,9 @@ jobs:
   test:
     name: Run Python Tests
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: python-task-manager-devops
 
     steps:
       - name: Checkout repository
@@ -25,20 +25,14 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
+          cache: pip
+          cache-dependency-path: python-task-manager-devops/requirements.txt
 
       - name: Upgrade pip
         run: python -m pip install --upgrade pip
 
       - name: Install dependencies
-        run: python -m pip install -r ~/python-task-manager-devops/requirements.txt
-
-      - name: Cache pip
-        uses: actions/cache@v3
-        with:
-          path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
-          restore-keys: |
-            ${{ runner.os }}-pip-
+        run: python -m pip install -r requirements.txt
 
       - name: Run tests
         run: python -m pytest -v
@@ -46,6 +40,9 @@ jobs:
   lint:
     name: Lint Python Code
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: python-task-manager-devops
 
     steps:
       - name: Checkout repository
@@ -60,4 +57,4 @@ jobs:
         run: python -m pip install flake8
 
       - name: Run flake8
-        run: flake8 .
+        run: flake8 app tests
