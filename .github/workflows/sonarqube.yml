@@ -42,6 +42,7 @@ jobs:
           python -m pip install pytest pytest-cov
 
       - name: Run tests and generate coverage
+        working-directory: python-task-manager-devops
         run: |
           python -m pytest \
             --cov=app \
