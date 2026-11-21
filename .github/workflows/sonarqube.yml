@@ -15,13 +15,11 @@ permissions:
   contents: read
 
 jobs:
-
   sonarqube-analysis:
     name: SonarQube Analysis
     runs-on: ubuntu-latest
 
     steps:
-
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
@@ -34,12 +32,13 @@ jobs:
 
       - name: Install application dependencies
         run: |
-          python -m pip install --upgrade pip
-          python -m pip install -r python-task-manager-devops/requirements.txt
+          python -m pip install --only-binary=:all: -r python-task-manager-devops/requirements.txt
 
       - name: Install testing dependencies
         run: |
-          python -m pip install pytest pytest-cov
+          python -m pip install --only-binary=:all: \
+            -r python-task-manager-devops/requirements-dev.txt \
+            -c python-task-manager-devops/requirements.txt
 
       - name: Run tests and generate coverage
         working-directory: python-task-manager-devops
@@ -50,7 +49,7 @@ jobs:
             --cov-report=term-missing
 
       - name: SonarQube Scan
-        uses: SonarSource/sonarqube-scan-action@v7
+        uses: SonarSource/sonarqube-scan-action@c7ee0f9df90b7aa20e8dcf9695dcfe2e7da5b4f2 # v7.2.1
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
