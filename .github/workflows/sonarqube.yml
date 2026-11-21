@@ -44,9 +44,9 @@ jobs:
         working-directory: python-task-manager-devops
         run: |
           python -m pytest \
-            --cov=app \
-            --cov-report=xml \
-            --cov-report=term-missing
+                --cov=app \
+                --cov-report=xml \
+                --cov-report=term-missing
 
       - name: SonarQube Scan
         uses: SonarSource/sonarqube-scan-action@c7ee0f9df90b7aa20e8dcf9695dcfe2e7da5b4f2 # v7.2.1
@@ -57,3 +57,5 @@ jobs:
             -Dsonar.organization=${{ secrets.SONAR_ORGANIZATION }}
             -Dsonar.projectKey=hkalsait19_devops-projects--python-task-manager-devops
             -Dsonar.qualitygate.wait=true
+            -Dsonar.coverageReportPaths=python-task-manager-devops/coverage.xml
+            -X
